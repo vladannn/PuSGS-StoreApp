@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import register from "../../services/UserService";
 
 function Registration() {
     const navigate = useNavigate();
@@ -20,28 +21,35 @@ function Registration() {
     const [data, setData] = useState({
       username: '',
       password: '',
-      confirmPassword: '',
+      password2: '',
       email: '',
       fullName: '',
       birthday: '',
       address: '',
-      type: '',
-      imageFile: ''
+      typeOfUser: "",
+      imageFile: ""
     });
 
     const imageHandleChange=(event)=>{
       setData({
         ...data,
-      [event.target.name]: event.target.files[0],
+      imageFile: event.target.files[0],
       })
     }
 
-    const handleChange = (event) => {
+    const birthdayHandleChange = (name, value) => {
       setData({
         ...data,
-        [event.target.name]: event.target.value
+        [name]: value,
       });
     };
+
+    const handleChange =(event)=>{
+      setData({
+        ...data,
+        [event.target.name]: event.target.value,
+      })
+    }
 
     const handleSubmit = (event) => {
       event.preventDefault();
@@ -81,28 +89,45 @@ function Registration() {
         toast.error("Password has at least 6 characters!");
       }
 
-      if(data.confirmPassword===""){
+      if(data.password2===""){
         toast.error("Confirm password you have entered before!");
         return
       }
-      else if(data.password!==data.confirmPassword)
+      else if(data.password!==data.password2)
       {
         toast.error("Passwords do not match!");
       }
 
-      if(data.role===""){
+      if(data.typeOfUser===""){
         toast.error("Please select your role on this app!");
         return
       }
-      else if(data.role==="select"){
-        toast.error("Role is not option. Choose between seller and buyer");
-      }
+      // else if(data.role==="select"){
+      //   toast.error("Role is not option. Choose between seller and buyer");
+      // }
 
-      if(data.birthday==="" || data.birthday==null)
+      if(data.birthday==="" || data.birthday===null)
       {
         toast.error("Select your day of birth!");
+        return
       }
+      //console.log(data.role);
+      
+      const formData= new FormData();
+      formData.append("username", data.username);
+      formData.append("password", data.password);
+      formData.append("email", data.email);
+      formData.append("fullname", data.fullName);
+      formData.append("birthday", data.birthday);
+      formData.append("address", data.address);
+      formData.append("typeOfUser", data.typeOfUser);
+      data.imageFile && formData.append("imageFile", data.imageFile);
+
+
+      register(formData);
     };
+
+    
 
   
   return (
@@ -170,37 +195,43 @@ function Registration() {
                   label="Confirm password"
                   type="password"
                   id="password2"
-                  value={data.confirmPassword}
+                  value={data.password2}
                   onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Select
-                  name="role"
+                  name="typeOfUser"
                   required
                   fullWidth
-                  id="role"
+                  id="typeOfUser"
                   label="Role"
-                  defaultValue="select"
-                  value={data.role}
+                  //defaultValue="select"
+                  value={data.typeOfUser}
                   onChange={handleChange}
                   sx={{marginTop: 1}}
                 >
-                <MenuItem value="select">Role</MenuItem>
-                <MenuItem value="seller">Seller</MenuItem>
-                <MenuItem value="buyer">Buyer</MenuItem>
+                <MenuItem value="Seller">Seller</MenuItem>
+                <MenuItem value="Buyer">Buyer</MenuItem>
                 </Select>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DatePicker']}>
-                        <DatePicker label="Birthday" 
-                         minDate={minDate}
-                         maxDate={maxDate}
-                         value={data.birthday}
-                         onChange={handleChange}>
-                        </DatePicker>
-                    </DemoContainer>
+                  <DemoContainer components={['DatePicker']}>
+                    <DatePicker
+                      label="Birthday"
+                      minDate={minDate}
+                      maxDate={maxDate}
+                      value={data.birthday}
+                      onChange={(value) => {
+                        if (value instanceof dayjs) {
+                          birthdayHandleChange("birthday", value.toISOString()); // Pretvaranje u ISO string da bi se poslalo na backend
+                        } else {
+                          birthdayHandleChange("birthday", ""); // Postavljanje na prazan string ako je vrednost null ili neki drugi nevažeći tip
+                        }
+                      }}
+                    />
+                  </DemoContainer>
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={12}>
@@ -222,11 +253,13 @@ function Registration() {
                   height={100}
                   alt="Add"
                   src={data.imageFile && URL.createObjectURL(data.imageFile)}
+                  
                 />
                 <span style={{ marginRight: "10px" }}>
                   <input
                     type="file"
                     name="imageFile"
+                    id="imageFile"
                     accept="image/jpg"
                     onChange={imageHandleChange}
                   />
