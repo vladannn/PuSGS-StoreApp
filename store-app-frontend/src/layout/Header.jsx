@@ -1,12 +1,10 @@
 import { AppBar, Toolbar, Typography, ThemeProvider, List, ListItem} from "@mui/material";
 import theme from "./Theme";
 import { NavLink } from "react-router-dom";
-//import {ShopingCart} from "@mui/icons-material";
 
 const rightLinks = [
     { title: 'login', path: '/login'},
-    { title: 'register', path: '/register'},
-    { title: 'home', path: ''},
+    { title: 'register', path: '/register'}
 ]
 
 const navStyles = {

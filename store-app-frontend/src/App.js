@@ -1,8 +1,8 @@
 import { Container } from '@mui/material';
 import './App.css';
 import Header from './layout/Header.jsx';
-import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import Rout from './router/Routes.js';
 
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
     <Header/>
     <div className='frontpage'>
       <Container className='look'>
-        <Outlet/>
+        <Rout/>
       </Container>
     </div>
     

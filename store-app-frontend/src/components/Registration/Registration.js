@@ -17,6 +17,7 @@ function Registration() {
     const maxDate = dayjs().subtract(18, 'year');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const usernameRegex = /^[a-zA-Z0-9]{3,20}$/;
+    var flag = 0;
 
     const [data, setData] = useState({
       username: '',
@@ -27,15 +28,9 @@ function Registration() {
       birthday: '',
       address: '',
       typeOfUser: "",
-      imageFile: ""
+      imageFile: ''
     });
 
-    const imageHandleChange=(event)=>{
-      setData({
-        ...data,
-      imageFile: event.target.files[0],
-      })
-    }
 
     const birthdayHandleChange = (name, value) => {
       setData({
@@ -51,80 +46,121 @@ function Registration() {
       })
     }
 
-    const handleSubmit = (event) => {
-      event.preventDefault();
+    const validate=()=>{
 
       if(data.fullName===""){
         toast.error("Enter your full name!");
+        flag=1;
         return
       }
       else if(data.fullName.trim().length<2)
       {
         toast.error("Your full name can't have less than 2 characters!");
+        flag=1;
         return
       }
 
       if(data.username===""){
         toast.error("Enter your username!");
+        flag=1;
         return
-      }else if(!usernameRegex.test(data.username)){
+      }
+      else if(!usernameRegex.test(data.username)){
         toast.error("Enter valid username(Between 3 and 20 characters)!");
+        flag=1;
         return
       }
 
       if(data.email===""){
         toast.error("Enter your email!");
+        flag=1;
         return
-      }else if(!emailRegex.test(data.email)){
+      }
+      else if(!emailRegex.test(data.email)){
         toast.error("Enter valid email");
+        flag=1;
         return
       }
 
       if(data.password===""){
         toast.error("Enter your password!");
+        flag=1;
         return
       }
       else if(data.password.trim().length<6)
       {
         toast.error("Password has at least 6 characters!");
+        flag=1;
       }
 
       if(data.password2===""){
         toast.error("Confirm password you have entered before!");
+        flag=1;
         return
       }
       else if(data.password!==data.password2)
       {
         toast.error("Passwords do not match!");
+        flag=1;
+        return
       }
 
       if(data.typeOfUser===""){
         toast.error("Please select your role on this app!");
+        flag=1;
         return
       }
-      // else if(data.role==="select"){
-      //   toast.error("Role is not option. Choose between seller and buyer");
-      // }
 
       if(data.birthday==="" || data.birthday===null)
       {
         toast.error("Select your day of birth!");
+        flag=1;
         return
       }
-      //console.log(data.role);
+
+      if(data.address===""){
+        toast.error("Please enter your address!");
+        flag=1;
+        return
+      }
+    }
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+
+      validate();
+
+      if(flag===0)
+      {
+        const formData= new FormData();
+        formData.append("username", data.username);
+        formData.append("password", data.password);
+        formData.append("email", data.email);
+        formData.append("fullname", data.fullName);
+        formData.append("birthday", data.birthday);
+        formData.append("address", data.address);
+        formData.append("typeOfUser", data.typeOfUser);
+        data.imageFile && formData.append("imageFile", data.imageFile);
+
+        register(formData).then(res => {alert("Successfully registered!"); navigate("/"); }).catch(e => { console.log(e); return; });
+      }
+      else{
+        return;
+      }
       
-      const formData= new FormData();
-      formData.append("username", data.username);
-      formData.append("password", data.password);
-      formData.append("email", data.email);
-      formData.append("fullname", data.fullName);
-      formData.append("birthday", data.birthday);
-      formData.append("address", data.address);
-      formData.append("typeOfUser", data.typeOfUser);
-      data.imageFile && formData.append("imageFile", data.imageFile);
+      // const formData= new FormData();
+      // formData.append("username", data.username);
+      // formData.append("password", data.password);
+      // formData.append("email", data.email);
+      // formData.append("fullname", data.fullName);
+      // formData.append("birthday", data.birthday);
+      // formData.append("address", data.address);
+      // formData.append("typeOfUser", data.typeOfUser);
+      // data.imageFile && formData.append("imageFile", data.imageFile);
 
+      
 
-      register(formData);
+      // register(formData);
     };
 
     
@@ -261,7 +297,11 @@ function Registration() {
                     name="imageFile"
                     id="imageFile"
                     accept="image/jpg"
-                    onChange={imageHandleChange}
+                    // onChange={imageHandleChange}
+                    onChange={(e) => {
+                      console.log(e);
+                      setData({ ...data, imageFile: e.target.files[0] });
+                    }}
                   />
                 </span>
               </div>
