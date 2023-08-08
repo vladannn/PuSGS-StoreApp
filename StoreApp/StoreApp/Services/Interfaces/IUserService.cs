@@ -5,5 +5,6 @@ namespace StoreApp.Services.Interfaces
     public interface IUserService
     {
         public UserDTO Register(RegisterDTO registerDTO);
+        public string Login(LoginDTO loginDTO);
     }
 }

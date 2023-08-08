@@ -29,5 +29,18 @@ namespace StoreApp.Controllers
             }
         }
 
+        [HttpPost("login")]
+        public IActionResult Login([FromForm] LoginDTO loginDTO)
+        {
+            if (loginDTO != null)
+            {
+                return Ok(_userService.Login(loginDTO));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }

@@ -8,7 +8,9 @@ namespace StoreApp.Mapping
     {
         public Mapping() 
         {
-            CreateMap<User, RegisterDTO>().ReverseMap();
+            CreateMap<RegisterDTO, User>()
+            .ForMember(dest => dest.UserImage, opt => opt.MapFrom<ImageFileToByteArrayResolver>());
+            CreateMap<User, RegisterDTO>();
             CreateMap<User, UserDTO>().ReverseMap();
         }
     }
