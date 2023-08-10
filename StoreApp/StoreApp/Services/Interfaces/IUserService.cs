@@ -6,5 +6,7 @@ namespace StoreApp.Services.Interfaces
     {
         public UserDTO Register(RegisterDTO registerDTO);
         public string Login(LoginDTO loginDTO);
+
+        public Task<string> GoogleLogin(TokenDTO tokenDTO);
     }
 }

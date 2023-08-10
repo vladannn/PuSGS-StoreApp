@@ -16,8 +16,7 @@ function Login(){
 
   const googleLoginHandler = async (response) => {
     try {
-      const token = response.credential;
-      await authContext.googleLogin(token);
+      await authContext.onGoogleLogin(response);
     } catch (error) {
       alert(error.response);
     }

@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Google.Apis.Auth;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Crypto.Generators;
 using StoreApp.DTOs;
+using StoreApp.Enums;
 using StoreApp.Models;
 using StoreApp.Repository.Interfaces;
 using StoreApp.Services.Interfaces;
@@ -17,12 +20,14 @@ namespace StoreApp.Services
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IConfigurationSection _secretKey;
+        private readonly IConfiguration _configuration;
 
         public UserService(IUserRepository userRepository, IMapper mapper, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _secretKey = configuration.GetSection("SecretKey");
+            _configuration= configuration;
         }
 
         public string Login(LoginDTO loginDTO)
@@ -113,6 +118,46 @@ namespace StoreApp.Services
 
             User u = _userRepository.AddUser(user);
             return new UserDTO { Id = u.Id, Username = u.Username, Address = u.Address, Birthday = u.Birthday, Email = u.Email, FullName = u.FullName, UserImage = u.UserImage, Password = u.Password, TypeOfUser = u.TypeOfUser };
+        }
+
+        public async Task<string> GoogleLogin(TokenDTO tokenDTO)
+        {
+            //var str = _configuration["Google:clientId"]!;
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            {
+                Audience = new List<string>() { _configuration["Google:clientId"]! }
+            };
+
+            var data = await GoogleJsonWebSignature.ValidateAsync(tokenDTO.Token, settings);
+
+            User user = _userRepository.FindUserByEmail(new User { Email = data.Email });
+
+            if (user != null)
+            {
+                return CreateToken(user);
+            }
+
+            user = new User
+            {
+                Email = data.Email,
+                FullName = $"{data.GivenName} {data.FamilyName}",
+                Birthday = DateTime.Now,
+                Address = $"No address",
+                Password = BCrypt.Net.BCrypt.HashPassword("123"),
+                VerificationStatus = VerificationStatus.Accepted,
+                TypeOfUser = UserType.Buyer,
+                Username = data.GivenName + (new Random().Next() / 100000).ToString(),
+            };
+
+            if (data.Picture != null)
+            {
+                Convert.TryFromBase64String(data.Picture, user.UserImage, out int b);
+            }
+            
+            _userRepository.AddUser(user);
+
+            return CreateToken(user);
+
         }
     }
 }

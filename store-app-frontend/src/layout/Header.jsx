@@ -1,11 +1,16 @@
 import { AppBar, Toolbar, Typography, ThemeProvider, List, ListItem} from "@mui/material";
 import theme from "./Theme";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/auth-context";
 
 const rightLinks = [
-    { title: 'login', path: '/login'},
-    { title: 'register', path: '/register'}
+    { title: 'login', path: '/login', loggedIn: false},
+    { title: 'register', path: '/register', loggedIn: false},
+    { title: 'profile', path: '/profile', loggedIn: true},
+    { title: 'home', path: '/', loggedIn: false}
 ]
+
 
 const navStyles = {
     color: 'inherit',
@@ -20,6 +25,9 @@ const navStyles = {
 }
 
 function Header() {
+  const authContext = useContext(AuthContext);
+  const links = rightLinks.filter(link=> (link.loggedIn && authContext.loggedIn) || (!link.loggedIn && !authContext.loggedIn));
+
   return (
     <ThemeProvider theme={theme}>
     <AppBar position='static'  sx={{ mb: 0 }}>
@@ -31,7 +39,7 @@ function Header() {
           WEB-STORE
         </Typography>
         <List sx={{ display: 'flex' }}>
-                    {rightLinks.map(({ title, path }) => (
+                    {links.map(({ title, path }) => (
                         <ListItem
                             component={NavLink}
                             to={path}
@@ -41,6 +49,13 @@ function Header() {
                             {title.toUpperCase()}
                         </ListItem>
                     ))}
+                {authContext.loggedIn && (
+                  <ListItem
+                  onClick={authContext.onLogout}
+                  sx={{color: 'inherit', typography: 'h6', cursor: 'pointer'}}>
+                    LOGOUT
+                  </ListItem>
+                )}
         </List>
       </Toolbar>
     </AppBar>

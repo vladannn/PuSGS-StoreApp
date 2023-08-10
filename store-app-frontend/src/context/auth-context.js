@@ -7,10 +7,23 @@ const AuthContext = React.createContext();
 const AuthProvider = ({children}) => {
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
+  const[loggedIn, setLoggedIn]= useState(false);
 
   useEffect(() => {
     setToken(localStorage.getItem('token'));
     }, []);
+
+
+  // const check=()=>{
+  //   if(token===null || token==="")
+  //   {
+  //     setLoggedIn(false);
+  //   }
+  //   else
+  //   {
+  //     setLoggedIn(true);
+  //   }
+  // }  
 
   const login = async (data) => {
     try{
@@ -20,24 +33,27 @@ const AuthProvider = ({children}) => {
       }
 
       setToken(response.data);
+      setLoggedIn(true);
       localStorage.setItem('token', response.data);
-      navigate('/');
+      navigate('/profile');
+      
       }
       catch(error)
       {
-          console.error(error);
+          alert(error.response.data);
       }
   };
 
-  const googleLogin = async (prop) => {
+  const googleLogin = async (data) => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}users/google-login`, prop, {headers: {"Content-Type": "application/json"}});
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}users/google-login`, {token: data.credential});
       if(!response){
         return
       }
       setToken(response.data);
+      setLoggedIn(true);
       localStorage.setItem('token', response.data);
-      navigate('/');
+      navigate('/profile');
 
     } catch (error) {
       alert(error.response.data.Exception);
@@ -46,12 +62,13 @@ const AuthProvider = ({children}) => {
 
   const logout =()=>{
     localStorage.clear();
+    setLoggedIn(false);
     setToken(null);
-    navigate('/');
+    navigate('');
   }
 
   return (
-    <AuthContext.Provider value={{token: token, onLogin: login, googleLogin: googleLogin, onLogout: logout }}>
+    <AuthContext.Provider value={{token: token, onLogin: login, onGoogleLogin: googleLogin, onLogout: logout, loggedIn: loggedIn }}>
       {children}
     </AuthContext.Provider>
   );

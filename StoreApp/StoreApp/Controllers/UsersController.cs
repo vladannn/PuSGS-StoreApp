@@ -34,7 +34,28 @@ namespace StoreApp.Controllers
         {
             if (loginDTO != null)
             {
-                return Ok(_userService.Login(loginDTO));
+                var token = _userService.Login(loginDTO);
+
+                if (token == "Email you have entered is not valid! Please check again your email!")
+                    return BadRequest(token);
+                if (token == "Invalid password! Please try again!")
+                    return BadRequest(token);
+
+                return Ok(token);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("google-login")]
+        public IActionResult GoogleLogin([FromBody] TokenDTO tokenDTO)
+        {
+            if (tokenDTO != null)
+            {
+                var returnToken = _userService.GoogleLogin(tokenDTO);
+                return Ok(returnToken);
             }
             else
             {
