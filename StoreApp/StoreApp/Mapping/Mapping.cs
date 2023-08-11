@@ -12,6 +12,7 @@ namespace StoreApp.Mapping
             .ForMember(dest => dest.UserImage, opt => opt.MapFrom<ImageFileToByteArrayResolver>());
             CreateMap<User, RegisterDTO>();
             CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<User, EditUserDTO>().ReverseMap();
         }
     }
 }

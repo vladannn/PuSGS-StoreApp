@@ -28,5 +28,17 @@ namespace StoreApp.Repository
         {
             return _context?.Users?.SingleOrDefault<User>(u => String.Equals(u.Email, userEmail.Email));
         }
+
+        public User FindUserById(int id)
+        {
+            return (_context?.Users?.SingleOrDefault<User>(u=> u.Id==id));
+        }
+
+        public User Update(User user)
+        {
+            _context.Users?.Update(user);
+            _context.SaveChanges();
+            return user;
+        }
     }
 }

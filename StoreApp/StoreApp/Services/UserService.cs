@@ -11,6 +11,7 @@ using StoreApp.Services.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography.Xml;
 using System.Text;
 
 namespace StoreApp.Services
@@ -158,6 +159,66 @@ namespace StoreApp.Services
 
             return CreateToken(user);
 
+        }
+
+        public UserDTO GetUser(int id)
+        {
+            User? user = _userRepository.FindUserById(id);
+
+            if (user == null)
+            {
+                throw new Exception("User doesn't exist.");
+            }
+
+            return _mapper.Map<UserDTO>(user);
+        }
+
+        public string UpdateUser(EditUserDTO editUserDTO, int id)
+        {
+            User? user = _userRepository.FindUserById(id);
+
+            if (user == null)
+            {
+                return "Wrong Id! Logout and login again!";
+            }
+
+            if(user.Email!=editUserDTO.Email)
+            {
+                var email = editUserDTO.Email;
+                var u = new User { Email = email};
+                if (_userRepository.FindUserByEmail(u) != null)
+                {
+                    return "User with this email already exists! Pick another email!";
+                }
+            }
+
+            if (user.Username != editUserDTO.Username)
+            {
+                var username = editUserDTO.Username;
+                var u = new User { Username = username };
+                if (_userRepository.FindUser(u) != null)
+                {
+                    return "User with this username already exists! Pick another username!";
+                }
+            }
+
+            user.Username = editUserDTO.Username;
+            user.FullName = editUserDTO.FullName;
+            user.Address = editUserDTO.Address;
+            user.Email = editUserDTO.Email;
+            user.Birthday = editUserDTO.Birthday;
+            user.Password = BCrypt.Net.BCrypt.HashPassword(editUserDTO.Password);
+
+            if (editUserDTO.ImageFile != null)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    editUserDTO.ImageFile.CopyTo(ms);
+                    user.UserImage = ms.ToArray();
+                }
+            }
+            _userRepository.Update(user);
+            return "";
         }
     }
 }

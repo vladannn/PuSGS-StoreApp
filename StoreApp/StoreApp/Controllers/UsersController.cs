@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StoreApp.DTOs;
 using StoreApp.Enums;
+using StoreApp.Models;
 using StoreApp.Services.Interfaces;
 
 namespace StoreApp.Controllers
@@ -61,6 +63,28 @@ namespace StoreApp.Controllers
             {
                 return BadRequest();
             }
+        }
+        [Authorize]
+        [HttpGet("get-user")]
+        public IActionResult GetUser()
+        {
+            if (!int.TryParse(User.Claims.First(c => c.Type == "Id").Value, out int userId))
+                throw new Exception("Not valid value for ID. Please logout and login again.");
+
+            var profile = _userService.GetUser(userId);
+
+            return Ok(profile);
+        }
+
+        [Authorize]
+        [HttpPost("update-user")]
+        public IActionResult UpdateUser([FromForm] EditUserDTO editUserDto)
+        {
+            if (!int.TryParse(User.Claims.First(c => c.Type == "Id").Value, out int id))
+                throw new Exception("Not valid value for ID. Please logout and login again.");
+
+            var message = _userService.UpdateUser(editUserDto, id);
+            return Ok(message);
         }
 
     }

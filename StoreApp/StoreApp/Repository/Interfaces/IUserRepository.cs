@@ -7,5 +7,7 @@ namespace StoreApp.Repository.Interfaces
         User AddUser(User newUser);
         User FindUser(User user);
         User FindUserByEmail(User userEmail);
+        User FindUserById(int id);
+        User Update(User user);
     }
 }

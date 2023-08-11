@@ -50,9 +50,10 @@ const AuthProvider = ({children}) => {
       if(!response){
         return
       }
-      setToken(response.data);
+      setToken(response.data.result);
       setLoggedIn(true);
-      localStorage.setItem('token', response.data);
+      localStorage.setItem('token', response.data.result);
+      console.log(response.data.result);
       navigate('/profile');
 
     } catch (error) {

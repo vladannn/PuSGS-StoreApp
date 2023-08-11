@@ -7,6 +7,8 @@ export class UserModel {
       this.birthday = obj.birthday;
       this.address = obj.address;
       this.type = obj.type;
-      this.image = obj.image;
+      this.userImage = obj.userImage;
     }
   }
+
+ 

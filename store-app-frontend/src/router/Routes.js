@@ -9,6 +9,7 @@ function Rout(){
                 <Route path="/login" element={<Login/>}></Route>
                 <Route path="/register" element={<Registration/>}></Route>
                 <Route path="/profile" element={<Profile/>}></Route>
+                <Route path="/"></Route>
         </Routes>
     )
 }

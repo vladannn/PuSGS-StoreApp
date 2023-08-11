@@ -147,20 +147,6 @@ function Registration() {
       else{
         return;
       }
-      
-      // const formData= new FormData();
-      // formData.append("username", data.username);
-      // formData.append("password", data.password);
-      // formData.append("email", data.email);
-      // formData.append("fullname", data.fullName);
-      // formData.append("birthday", data.birthday);
-      // formData.append("address", data.address);
-      // formData.append("typeOfUser", data.typeOfUser);
-      // data.imageFile && formData.append("imageFile", data.imageFile);
-
-      
-
-      // register(formData);
     };
 
     
