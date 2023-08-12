@@ -34,11 +34,21 @@ namespace StoreApp.Repository
             return (_context?.Users?.SingleOrDefault<User>(u=> u.Id==id));
         }
 
+        public List<User> GetAllUsers()
+        {
+            return _context.Users.Where(u=>u.TypeOfUser!=Enums.UserType.Administrator).ToList();
+        }
+
         public User Update(User user)
         {
             _context.Users?.Update(user);
             _context.SaveChanges();
             return user;
+        }
+
+        public List<User> UsersForVerification()
+        {
+            return _context.Users.Where(u => u.VerificationStatus == Enums.VerificationStatus.Waiting).ToList();
         }
     }
 }

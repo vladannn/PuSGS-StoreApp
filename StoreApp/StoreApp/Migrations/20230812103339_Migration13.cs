@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StoreApp.Migrations
 {
-    public partial class StoreMigration : Migration
+    public partial class Migration13 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -89,6 +89,17 @@ namespace StoreApp.Migrations
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Address", "Birthday", "Email", "FullName", "Password", "TypeOfUser", "UserImage", "Username", "VerificationStatus" },
+                values: new object[,]
+                {
+                    { 1, "Danila Kisa 7", new DateTime(2000, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "vladanjovanovic678@gmail.com", "Vladan Jovanovic", "$2a$11$vTgjkmQ4avMY5P/.eAyozOz2nAPjMU7G/1DXgptCNiWbKq95YoVH.", "Administrator", null, "vladann", "Accepted" },
+                    { 2, "Wonderland 8", new DateTime(1989, 12, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "zec1@gmail.com", "Zec Zekic", "$2a$11$OS5AY5FXQ8g9S4mBB/A4hOlHEW3d0ldhGzyucloztDAdCMaSDQuQa", "Seller", null, "zec", "Waiting" },
+                    { 3, "Sime Perica 16", new DateTime(2002, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "vladanj23@yahoo.com", "Andrej Mehic", "$2a$11$RUzIdkCBQX1fTza87hQsJu0kvVDUAwJFjad2h3dSh0psHjIzIzXtq", "Seller", null, "andrej234", "Accepted" },
+                    { 4, "Okrugiceva 13", new DateTime(1999, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "slavicaa@gmail.com", "Slavica Slavisic", "$2a$11$NJmUS5H3.EtkmzJNzY05YejSdxI9Q8LDecJLUG7jUKQZcgR9rZxZC", "Buyer", null, "slavicaxD", "Accepted" }
                 });
 
             migrationBuilder.CreateIndex(

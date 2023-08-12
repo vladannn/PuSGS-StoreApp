@@ -11,19 +11,18 @@ const AuthProvider = ({children}) => {
 
   useEffect(() => {
     setToken(localStorage.getItem('token'));
+      if(token===null || token==="")
+    {
+      setLoggedIn(false);
+    }
+    else
+    {
+      setLoggedIn(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-
-  // const check=()=>{
-  //   if(token===null || token==="")
-  //   {
-  //     setLoggedIn(false);
-  //   }
-  //   else
-  //   {
-  //     setLoggedIn(true);
-  //   }
-  // }  
+ 
 
   const login = async (data) => {
     try{

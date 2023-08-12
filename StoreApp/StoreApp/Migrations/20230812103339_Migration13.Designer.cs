@@ -12,8 +12,8 @@ using StoreApp.Data;
 namespace StoreApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230731093217_StoreMigration")]
-    partial class StoreMigration
+    [Migration("20230812103339_Migration13")]
+    partial class Migration13
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -179,6 +179,56 @@ namespace StoreApp.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Danila Kisa 7",
+                            Birthday = new DateTime(2000, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "vladanjovanovic678@gmail.com",
+                            FullName = "Vladan Jovanovic",
+                            Password = "$2a$11$vTgjkmQ4avMY5P/.eAyozOz2nAPjMU7G/1DXgptCNiWbKq95YoVH.",
+                            TypeOfUser = "Administrator",
+                            Username = "vladann",
+                            VerificationStatus = "Accepted"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Wonderland 8",
+                            Birthday = new DateTime(1989, 12, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "zec1@gmail.com",
+                            FullName = "Zec Zekic",
+                            Password = "$2a$11$OS5AY5FXQ8g9S4mBB/A4hOlHEW3d0ldhGzyucloztDAdCMaSDQuQa",
+                            TypeOfUser = "Seller",
+                            Username = "zec",
+                            VerificationStatus = "Waiting"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "Sime Perica 16",
+                            Birthday = new DateTime(2002, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "vladanj23@yahoo.com",
+                            FullName = "Andrej Mehic",
+                            Password = "$2a$11$RUzIdkCBQX1fTza87hQsJu0kvVDUAwJFjad2h3dSh0psHjIzIzXtq",
+                            TypeOfUser = "Seller",
+                            Username = "andrej234",
+                            VerificationStatus = "Accepted"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "Okrugiceva 13",
+                            Birthday = new DateTime(1999, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "slavicaa@gmail.com",
+                            FullName = "Slavica Slavisic",
+                            Password = "$2a$11$NJmUS5H3.EtkmzJNzY05YejSdxI9Q8LDecJLUG7jUKQZcgR9rZxZC",
+                            TypeOfUser = "Buyer",
+                            Username = "slavicaxD",
+                            VerificationStatus = "Accepted"
+                        });
                 });
 
             modelBuilder.Entity("StoreApp.Models.OrderItem", b =>

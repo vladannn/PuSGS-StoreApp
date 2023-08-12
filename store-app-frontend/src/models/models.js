@@ -11,4 +11,15 @@ export class UserModel {
     }
   }
 
- 
+  export class GetUserModel {
+    constructor(id, username, email, fullName, birthday, address, typeOfUser, userImage) {
+      this.id = id;
+      this.username = username;
+      this.email = email;
+      this.fullName = fullName;
+      this.birthday = birthday;
+      this.address = address;
+      this.typeOfUser = typeOfUser;
+      this.userImage = userImage;
+    }
+};

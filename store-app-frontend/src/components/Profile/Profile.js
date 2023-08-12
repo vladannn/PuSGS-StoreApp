@@ -148,7 +148,7 @@ function Profile(){
 
             userService.setUserUpdate(formData).then((res) => {
               console.log(res);
-            if(res===undefined)
+            if(res.data==='' || res.data===null)
             {
                 alert("Succesfully updated your profile");
             }

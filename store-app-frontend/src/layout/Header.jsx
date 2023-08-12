@@ -8,7 +8,9 @@ const rightLinks = [
     { title: 'login', path: '/login', loggedIn: false},
     { title: 'register', path: '/register', loggedIn: false},
     { title: 'profile', path: '/profile', loggedIn: true},
-    { title: 'home', path: '/', loggedIn: false}
+    { title: 'home', path: '/', loggedIn: false},
+    { title: 'all users', path: '/all-users', loggedIn: true},
+    { title: 'verification', path: '/for-verification', loggedIn: true}
 ]
 
 

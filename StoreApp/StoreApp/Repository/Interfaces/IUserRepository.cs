@@ -9,5 +9,7 @@ namespace StoreApp.Repository.Interfaces
         User FindUserByEmail(User userEmail);
         User FindUserById(int id);
         User Update(User user);
+        List<User> GetAllUsers();
+        List<User> UsersForVerification();
     }
 }

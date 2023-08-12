@@ -13,6 +13,7 @@ namespace StoreApp.Mapping
             CreateMap<User, RegisterDTO>();
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<User, EditUserDTO>().ReverseMap();
+            CreateMap<User, GetUserDTO>().ReverseMap();
         }
     }
 }
