@@ -42,6 +42,10 @@ namespace StoreApp.Controllers
                     return BadRequest(token);
                 if (token == "Invalid password! Please try again!")
                     return BadRequest(token);
+                if (token == "You have to wait until your request is approved by administrator!")
+                    return BadRequest(token);
+                if (token == "Your request is not approved by administrator!")
+                    return BadRequest(token);
 
                 return Ok(token);
             }

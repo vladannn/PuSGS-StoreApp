@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 const AuthContext = React.createContext();
 
@@ -27,15 +28,16 @@ const AuthProvider = ({children}) => {
   const login = async (data) => {
     try{
       const response = await axios.post(`${process.env.REACT_APP_API_URL}users/login`, data, {headers: {"Content-Type": "multipart/form-data"}});
-      if(!response){
-        return
-      }
+        if(response.status===200){
 
-      setToken(response.data);
-      setLoggedIn(true);
-      localStorage.setItem('token', response.data);
-      navigate('/profile');
-      
+        setToken(response.data);
+        setLoggedIn(true);
+        localStorage.setItem('token', response.data);
+        navigate('/profile');
+        }
+        else{
+          alert(response.data);
+        }
       }
       catch(error)
       {
@@ -60,6 +62,20 @@ const AuthProvider = ({children}) => {
     }
   };
 
+  const typeOfUser = ()=>{
+      try 
+      {
+        if(!token)
+            return null;
+        const tokenDecoded = jwtDecode(token);
+        return tokenDecoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      } 
+      catch(e) 
+      {
+        console.log(e);
+      }
+  }
+
   const logout =()=>{
     localStorage.clear();
     setLoggedIn(false);
@@ -68,7 +84,7 @@ const AuthProvider = ({children}) => {
   }
 
   return (
-    <AuthContext.Provider value={{token: token, onLogin: login, onGoogleLogin: googleLogin, onLogout: logout, loggedIn: loggedIn }}>
+    <AuthContext.Provider value={{token: token, onLogin: login, onGoogleLogin: googleLogin, onLogout: logout, loggedIn: loggedIn, onUserType: typeOfUser }}>
       {children}
     </AuthContext.Provider>
   );

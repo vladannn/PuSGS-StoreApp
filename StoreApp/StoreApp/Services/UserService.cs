@@ -22,13 +22,15 @@ namespace StoreApp.Services
         private readonly IMapper _mapper;
         private readonly IConfigurationSection _secretKey;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, IConfiguration configuration)
+        public UserService(IUserRepository userRepository, IMapper mapper, IConfiguration configuration, IEmailService emailService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _secretKey = configuration.GetSection("SecretKey");
-            _configuration= configuration;
+            _configuration = configuration;
+            _emailService = emailService;
         }
 
         public string Login(LoginDTO loginDTO)
@@ -115,6 +117,11 @@ namespace StoreApp.Services
             else
             {
                 user.VerificationStatus= Enums.VerificationStatus.Accepted;
+            }
+
+            if (user.TypeOfUser == UserType.Seller)
+            {
+                _emailService.SendEmail("Verification for your account", "Your account will be checked by our administrators as soon as possible", user.Email!);
             }
 
             User u = _userRepository.AddUser(user);

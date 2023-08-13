@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useState } from "react";
-//import getUsersList from "../../services/AdminService";
 import adminService from "../../services/AdminService";
 
 const UsersList=()=>{

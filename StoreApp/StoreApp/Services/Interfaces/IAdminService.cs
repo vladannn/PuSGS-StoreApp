@@ -6,5 +6,7 @@ namespace StoreApp.Services.Interfaces
     {
         List<GetUserDTO> GetUsers();
         List<GetUserDTO> ForVerification();
+        void VerifyUser(VerifyUserDTO verifyUserDTO);
+        List<GetUserDTO> DeclinedUsers();  
     }
 }

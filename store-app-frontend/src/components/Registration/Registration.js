@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import register from "../../services/UserService";
+import userService from "../../services/UserService";
 
 function Registration() {
     const navigate = useNavigate();
@@ -142,7 +142,7 @@ function Registration() {
         formData.append("typeOfUser", data.typeOfUser);
         data.imageFile && formData.append("imageFile", data.imageFile);
 
-        register(formData).then(res => {alert("Successfully registered!"); navigate("/"); }).catch(e => { console.log(e); return; });
+        userService.register(formData).then(res => {alert("Successfully registered!"); navigate("/"); }).catch(e => { console.log(e); return; });
       }
       else{
         return;

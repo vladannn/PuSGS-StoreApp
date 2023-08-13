@@ -11,5 +11,6 @@ namespace StoreApp.Repository.Interfaces
         User Update(User user);
         List<User> GetAllUsers();
         List<User> UsersForVerification();
+        List<User> DeclinedUsers();
     }
 }

@@ -19,6 +19,11 @@ namespace StoreApp.Repository
             return newUser;
         }
 
+        public List<User> DeclinedUsers()
+        {
+            return _context.Users.Where(u => u.VerificationStatus == Enums.VerificationStatus.Declined).ToList();
+        }
+
         public User FindUser(User user)
         {
             return _context?.Users?.SingleOrDefault<User>(u=>String.Equals(u.Username, user.Username));

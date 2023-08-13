@@ -51,5 +51,41 @@ const forVerification= async()=>{
         return null;
     }
 }
+
+const verifyUser= async(data)=>{
+    try{
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage.");
+            return;
+        }
+
+        await axios.post(`${process.env.REACT_APP_API_URL}admin/verify-user`, data, {headers: {"Authorization": `Bearer ${token}`}});
+        return true;
+    }
+    catch(error)
+    {
+        alert(error.response.data.Exception);
+        return false;
+    }
+}
+
+const declinedRequest= async()=>{
+    try{
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage.");
+            return;
+        }
+
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}admin/declined-user`, {headers: {"Authorization": `Bearer ${token}`}});
+        return response.data;
+    }
+    catch(error)
+    {
+        alert(error.response.data.Exception);
+        return null;
+    }
+}
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {getUsersList, forVerification};
+export default {getUsersList, forVerification, verifyUser, declinedRequest};
