@@ -14,6 +14,7 @@ function Rout(){
                 <Route path="/all-users" element={<UsersList/>}></Route>
                 <Route path="/for-verification" element={<Verification/>}></Route>
                 <Route path="/"></Route>
+                
         </Routes>
     )
 }

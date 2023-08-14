@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using StoreApp.DTOs;
+using StoreApp.Enums;
 using StoreApp.Models;
 using StoreApp.Repository.Interfaces;
 using StoreApp.Services.Interfaces;
@@ -10,10 +11,12 @@ namespace StoreApp.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public AdminService(IUserRepository userRepository, IMapper mapper) 
+        private readonly IEmailService _emailService;
+        public AdminService(IUserRepository userRepository, IMapper mapper, IEmailService emailService) 
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         public List<GetUserDTO> DeclinedUsers()
@@ -53,6 +56,9 @@ namespace StoreApp.Services
             }
 
             u.VerificationStatus = verifyUserDTO.VerificationStatus;
+
+            string email = u.VerificationStatus == VerificationStatus.Accepted ? "You have been accepted." : "Your verification has been declined.";
+            _emailService.SendEmail("Web store job - Verification status", email, u.Email);
 
             _userRepository.Update(u);
 

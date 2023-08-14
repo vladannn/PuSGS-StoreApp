@@ -23,3 +23,15 @@ export class UserModel {
       this.userImage = userImage;
     }
 };
+
+export class ProductModel {
+  constructor(id, name, description, amount, image, price, sellerId) {
+      this.id = id;
+      this.name = name;
+      this.description = description;
+      this.amount = amount;
+      this.image = image;
+      this.price = price;
+      this.sellerId = sellerId;
+  }
+}

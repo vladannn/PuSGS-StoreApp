@@ -7,12 +7,24 @@ import { AuthContext } from "../context/auth-context";
 const rightLinks = [
     { title: 'login', path: '/login', loggedIn: false},
     { title: 'register', path: '/register', loggedIn: false},
-    { title: 'profile', path: '/profile', loggedIn: true},
-    { title: 'home', path: '/', loggedIn: false},
-    { title: 'all users', path: '/all-users', loggedIn: true},
-    { title: 'verification', path: '/for-verification', loggedIn: true}
+    { title: 'home', path: '/', loggedIn: false}
 ]
 
+const adminLinks = [
+  { title: 'all users', path: '/all-users', loggedIn: true},
+  { title: 'verification', path: '/for-verification', loggedIn: true},
+  { title: 'profile', path: '/profile', loggedIn: true}
+]
+
+const sellerLinks = [
+  { title: 'orders', path: '/all-orders', loggedIn: true},
+  { title: 'profile', path: '/profile', loggedIn: true}
+]
+
+const buyerLinks = [
+  { title: 'products', path: '/products', loggedIn: true},
+  { title: 'profile', path: '/profile', loggedIn: true},
+]
 
 const navStyles = {
     color: 'inherit',
@@ -28,7 +40,7 @@ const navStyles = {
 
 function Header() {
   const authContext = useContext(AuthContext);
-  const links = rightLinks.filter(link=> (link.loggedIn && authContext.loggedIn) || (!link.loggedIn && !authContext.loggedIn));
+  //const links = rightLinks.filter(link=> (link.loggedIn && authContext.loggedIn) || (!link.loggedIn && !authContext.loggedIn));
 
   return (
     <ThemeProvider theme={theme}>
@@ -40,8 +52,8 @@ function Header() {
                     >
           WEB-STORE
         </Typography>
-        <List sx={{ display: 'flex' }}>
-                    {links.map(({ title, path }) => (
+        {!authContext.loggedIn && <List sx={{ display: 'flex' }}>
+                    {rightLinks.map(({ title, path }) => (
                         <ListItem
                             component={NavLink}
                             to={path}
@@ -51,14 +63,75 @@ function Header() {
                             {title.toUpperCase()}
                         </ListItem>
                     ))}
-                {authContext.loggedIn && (
-                  <ListItem
-                  onClick={authContext.onLogout}
-                  sx={{color: 'inherit', typography: 'h6', cursor: 'pointer'}}>
-                    LOGOUT
-                  </ListItem>
-                )}
         </List>
+        }     
+        {
+          authContext.loggedIn && authContext.onUserType()==="Administrator" && <List sx={{ display: 'flex' }}>
+          {adminLinks.map(({ title, path }) => (
+              <ListItem
+                  component={NavLink}
+                  to={path}
+                  key={path}
+                  sx={navStyles}
+              >
+                  {title.toUpperCase()}
+              </ListItem>
+          ))}
+
+          {authContext.loggedIn && (
+            <ListItem
+            onClick={authContext.onLogout}
+            sx={{color: 'inherit', typography: 'h6', cursor: 'pointer'}}>
+              LOGOUT
+            </ListItem>
+          )}
+      </List>
+        }
+
+        {
+          authContext.loggedIn && authContext.onUserType()==="Seller" && <List sx={{ display: 'flex' }}>
+          {sellerLinks.map(({ title, path }) => (
+              <ListItem
+                  component={NavLink}
+                  to={path}
+                  key={path}
+                  sx={navStyles}
+              >
+                  {title.toUpperCase()}
+              </ListItem>
+          ))}
+
+          {authContext.loggedIn && (
+            <ListItem
+            onClick={authContext.onLogout}
+            sx={{color: 'inherit', typography: 'h6', cursor: 'pointer'}}>
+              LOGOUT
+            </ListItem>
+          )}
+          </List>
+        }
+        {
+          authContext.loggedIn && authContext.onUserType()==="Buyer" && <List sx={{ display: 'flex' }}>
+          {buyerLinks.map(({ title, path }) => (
+              <ListItem
+                  component={NavLink}
+                  to={path}
+                  key={path}
+                  sx={navStyles}
+              >
+                  {title.toUpperCase()}
+              </ListItem>
+          ))}
+
+          {authContext.loggedIn && (
+            <ListItem
+            onClick={authContext.onLogout}
+            sx={{color: 'inherit', typography: 'h6', cursor: 'pointer'}}>
+              LOGOUT
+            </ListItem>
+          )}
+          </List>
+        }
       </Toolbar>
     </AppBar>
     </ThemeProvider>
