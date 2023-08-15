@@ -17,8 +17,9 @@ const adminLinks = [
 ]
 
 const sellerLinks = [
-  { title: 'orders', path: '/all-orders', loggedIn: true},
-  { title: 'profile', path: '/profile', loggedIn: true}
+  { title: 'add product', path: '/add-product', loggedIn: true},
+  { title: 'profile', path: '/profile', loggedIn: true},
+  { title: 'my products', path: '/get-my-products', loggedIn: true},
 ]
 
 const buyerLinks = [

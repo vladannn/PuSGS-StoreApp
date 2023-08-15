@@ -55,5 +55,7 @@ namespace StoreApp.Controllers
             List<GetUserDTO> users = _adminService.DeclinedUsers();
             return Ok(users);
         }
+
+        
     }
 }
