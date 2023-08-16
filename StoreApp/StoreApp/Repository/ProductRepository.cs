@@ -35,6 +35,11 @@ namespace StoreApp.Repository
             return _context.Articles.Where(a => a.SellerId == id).ToList();
         }
 
+        public List<Article> GetArticles()
+        {
+            return _context.Articles.ToList();
+        }
+
         public Article Update(Article article)
         {
             _context.Articles?.Update(article);

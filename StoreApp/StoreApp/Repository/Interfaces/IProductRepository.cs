@@ -9,5 +9,6 @@ namespace StoreApp.Repository.Interfaces
         void DeleteArticle(Article article);
         Article FindArticle(int id);
         Article Update(Article article);
+        List<Article> GetArticles();
     }
 }

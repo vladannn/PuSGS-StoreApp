@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import ProductList from "../Product/ProductList";
-import sellerService from "../../services/SellerService";
+import buyerService from "../../services/BuyerService";
 
 const Catalog =()=>{
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        sellerService.getProducts().then(
+        buyerService.getProducts().then(
             (res)=>{
                 setProducts(res);
         }

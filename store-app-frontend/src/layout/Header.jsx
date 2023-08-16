@@ -23,7 +23,7 @@ const sellerLinks = [
 ]
 
 const buyerLinks = [
-  { title: 'products', path: '/products', loggedIn: true},
+  { title: 'products', path: '/get-products', loggedIn: true},
   { title: 'profile', path: '/profile', loggedIn: true},
 ]
 
