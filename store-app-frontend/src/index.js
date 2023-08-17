@@ -6,15 +6,18 @@ import { BrowserRouter } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from './context/auth-context';
 import App from './App';
+import { CartProvider } from './context/cart-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
-        <AuthProvider>
-          <App/>
-        </AuthProvider>
+        <CartProvider>
+          <AuthProvider>
+            <App/>
+          </AuthProvider>
+        </CartProvider>
       </GoogleOAuthProvider>
     </BrowserRouter>
   </React.StrictMode>

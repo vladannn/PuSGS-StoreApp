@@ -1,12 +1,18 @@
 import React from "react";
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import {useCart} from "../../context/cart-context";
 
 const ProductCard = ({product}) =>{
+    const {addToCart} = useCart();
 
     const convertImage = (img) => {
         return `data:image/jpg;base64,${img}`;
       };
+
+      const handleAddToCart = () => {
+        addToCart(product);
+    };
 
     return (
         <Card>
@@ -35,7 +41,7 @@ const ProductCard = ({product}) =>{
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Add to Cart</Button>
+                <Button size="small" onClick={handleAddToCart}>Add to Cart</Button>
                 <Button component={Link} to={`/get-products/${product.id}`} size="small">View</Button>
             </CardActions>
         </Card>

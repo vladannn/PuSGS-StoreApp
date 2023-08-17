@@ -9,6 +9,7 @@ import MyProducts from "../components/Seller/MyProducts.js";
 import EditProduct from "../components/Seller/EditProduct.js";
 import Catalog from "../components/Seller/Catalog.js";
 import ProductDetails from "../components/Product/ProductDetails.js";
+import Cart from "../components/Buyer/Cart.js";
 
 function Rout(){
     return(
@@ -23,6 +24,7 @@ function Rout(){
                 <Route path="/edit-product" element={<EditProduct/>}></Route>
                 <Route path="/get-products" element={<Catalog/>}></Route>
                 <Route path="/get-products/:id" element={<ProductDetails/>}></Route>
+                <Route path="/cart" element={<Cart/>}></Route>
                 <Route path="/"></Route>
                 
         </Routes>

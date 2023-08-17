@@ -25,6 +25,7 @@ const sellerLinks = [
 const buyerLinks = [
   { title: 'products', path: '/get-products', loggedIn: true},
   { title: 'profile', path: '/profile', loggedIn: true},
+  { title: 'cart', path: '/cart', loggedIn: true}
 ]
 
 const navStyles = {

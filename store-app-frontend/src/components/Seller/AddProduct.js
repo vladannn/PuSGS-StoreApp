@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import sellerService from "../../services/SellerService";
 
 const AddProduct = ()=>{
+  
     const [data, setData] = useState({
         name: '',
         price: 0,
