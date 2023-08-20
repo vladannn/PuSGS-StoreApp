@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ProductModel } from "../models/models";
+import { ProductModel, OrderModel } from "../models/models";
 
 const getProducts = async ()=>{
     try{
@@ -76,5 +76,85 @@ const addOrder=async(data) =>{
         alert(ex.response.data.Exception);
     }
 }
+
+const getOldOrders = async ()=>{
+    try{
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage.");
+            return;
+        }
+
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}buyer/get-old-orders`, {headers: {"Authorization": `Bearer ${token}`}});
+        
+        const ordersList=[];
+        for(let i = 0; i < response.data.length; i++){
+            const product = response.data[i];
+            ordersList[i] = new OrderModel(
+                product.id,
+                product.deliveryAddress,
+                product.comment,
+                product.orderTime, 
+                product.orderStatus,
+                product.deliveryTime,
+                product.orderItems
+            );
+        }
+        return ordersList;
+    }
+    catch(error)
+    {
+        alert(error.response.data.Exception);
+        return null;
+    }
+}
+
+const getNewOrders = async ()=>{
+    try{
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage.");
+            return;
+        }
+
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}buyer/get-new-orders`, {headers: {"Authorization": `Bearer ${token}`}});
+        
+        const ordersList=[];
+        for(let i = 0; i < response.data.length; i++){
+            const product = response.data[i];
+            ordersList[i] = new OrderModel(
+                product.id,
+                product.deliveryAddress,
+                product.comment,
+                product.orderTime, 
+                product.orderStatus,
+                product.deliveryTime,
+                product.orderItems
+            );
+        }
+        return ordersList;
+    }
+    catch(error)
+    {
+        alert(error.response.data.Exception);
+        return null;
+    }
+}
+
+const cancelOrder = async(id) =>{
+    try{
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage.");
+            return;
+        }
+
+        await axios.put(`${process.env.REACT_APP_API_URL}buyer/cancel-order/${id}`, {headers: {"Authorization": `Bearer ${token}`}});
+    }
+    catch(ex)
+    {
+        alert(ex.response.data.Exception);
+    }
+}
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {getProducts, getProduct, addOrder};
+export default {getProducts, getProduct, addOrder, getOldOrders, getNewOrders, cancelOrder};

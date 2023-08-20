@@ -17,6 +17,8 @@ namespace StoreApp.Mapping
             CreateMap<Article, ProductDTO>().ReverseMap();
             CreateMap<Order, AddOrderDTO>().ReverseMap();
             CreateMap<OrderItem, AddOrderItemDTO>().ReverseMap();
+            CreateMap<Order, GetOrderDTO>().ReverseMap();
+            CreateMap<OrderItem, GetOrderItemDTO>().ReverseMap();
         }
     }
 }

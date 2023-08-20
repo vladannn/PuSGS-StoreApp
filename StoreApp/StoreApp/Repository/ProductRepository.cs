@@ -27,7 +27,7 @@ namespace StoreApp.Repository
 
         public Article FindArticle(int id)
         {
-            return _context.Articles?.SingleOrDefault<Article>(a => String.Equals(a.Id, id)); ;
+            return _context.Articles?.SingleOrDefault<Article>(a => String.Equals(a.Id, id)); 
         }
 
         public List<Article> GetAllArticles(int id)

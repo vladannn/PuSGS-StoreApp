@@ -35,3 +35,15 @@ export class ProductModel {
       this.sellerId = sellerId;
   }
 }
+
+export class OrderModel {
+  constructor(id, deliveryAddress, comment, orderTime, orderStatus, deliveryTime, orderItems) {
+      this.id = id;
+      this.deliveryAddress = deliveryAddress;
+      this.comment = comment;
+      this.orderTime = orderTime;
+      this.orderStatus = orderStatus;
+      this.deliveryTime = deliveryTime;
+      this.orderItems = orderItems;
+  }
+}

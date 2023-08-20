@@ -1,8 +1,29 @@
+import { useEffect, useState } from "react";
+import buyerService from "../../services/BuyerService";
+import { TableCell, Box, TableContainer, Typography, Table, TableBody, TableHead, TableRow, Paper } from "@mui/material";
+
 const OldOrders = () =>{
+    const [orders, setOrders] = useState([]);
+
+    useEffect(()=>{
+        buyerService.getOldOrders().then(
+        (res)=>{
+            if(res!=null)
+            {
+                console.log(res);
+                setOrders(res);
+            }
+        }
+        )
+    }, []);
+
+    
     return (
         <>
+        {orders.length>0 ?(
+        <>
         <Box display="flex" justifyContent="center" mt={2}>
-                <h2>New orders</h2>
+                <h2>Old orders</h2>
         </Box>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -12,15 +33,38 @@ const OldOrders = () =>{
                             <TableCell align="right">Comment</TableCell>
                             <TableCell align="center">Order Time</TableCell>
                             <TableCell align="right">Delivery Time</TableCell>
-                            <TableCell align="right">Countdown</TableCell>
+                            <TableCell align="right">Order Status</TableCell>
                             <TableCell align="right">Purchased items</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-
+                    {orders.map((order) => (
+                            <TableRow
+                                key={order.id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell align="right">{order.deliveryAddress}</TableCell>
+                                <TableCell align="right">{order.comment}</TableCell>
+                                <TableCell align="right">{new Date(order.orderTime).toLocaleString()}</TableCell>
+                                <TableCell align="right">{new Date(order.deliveryTime).toLocaleString()}</TableCell>
+                                <TableCell align="right">{order.orderStatus===0? "Delivered": "Canceled"}</TableCell>
+                                <TableCell align="right">
+                                {order.orderItems>0 && order.orderItems.map((item) => (
+                                    <span>
+                                    {item.name}: {item.amount}x
+                                    <br />
+                                    </span>
+                                ))}
+                                </TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
             </Table>
         </TableContainer>
+        </>)
+        :
+        (<Box display="flex" justifyContent="center" mt={2}><Typography variant="h3">There is no old orders</Typography></Box>  )               
+}
         </>
     );
 }
