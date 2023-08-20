@@ -61,5 +61,20 @@ const getProduct= async (id)=>{
     }
 }
 
+const addOrder=async(data) =>{
+    try{
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage.");
+            return;
+        }
+
+        await axios.post(`${process.env.REACT_APP_API_URL}buyer/add-order`, data, {headers: {"Authorization": `Bearer ${token}`, "Content-Type": "application/json"}});
+    }
+    catch(ex)
+    {
+        alert(ex.response.data.Exception);
+    }
+}
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {getProducts, getProduct};
+export default {getProducts, getProduct, addOrder};

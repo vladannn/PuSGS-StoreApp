@@ -3,12 +3,16 @@ import theme from "../../layout/Theme";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider, Box, Typography, Paper, Grid, Container, Button, TextField } from "@mui/material";
+import buyerService from "../../services/BuyerService";
+import { useCart } from "../../context/cart-context";
 
 const AddOrder = (props) =>{
     const [data, setData] = useState({
         address: '',
         comment: ''
       });
+
+    const {emptyCart} = useCart(); 
 
     const handleSubmit = (event) =>{
         event.preventDefault();
@@ -21,8 +25,8 @@ const AddOrder = (props) =>{
 
         const orderItems = props.orderItems.map(item => {
             return {
-                productId : item.id,
-                quantity : item.quantity
+                articleId : item.id,
+                amount : item.quantity
             }
         })
 
@@ -32,7 +36,13 @@ const AddOrder = (props) =>{
             "orderItems": orderItems
         }
 
-        console.log(order);
+        //console.log(order);
+        buyerService.addOrder(order).then(
+            (res)=>{
+                alert("Your order is successfully added!");
+                emptyCart();
+            }
+        ).catch(e=>{console.log(e); return;})
     }
 
     const handleChange = (event) =>{

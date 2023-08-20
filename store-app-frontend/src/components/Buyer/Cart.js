@@ -14,7 +14,7 @@ const Cart = () => {
     const [showAdd, setShowAdd] = useState(false);
 
     const handleQuantityChange = (id, newValue) =>{
-        updateQuantity(id, parseInt(newValue));
+        updateQuantity(id, newValue);
     }
 
     const handleRemoveFromCart = (id) =>{

@@ -15,6 +15,8 @@ namespace StoreApp.Mapping
             CreateMap<User, EditUserDTO>().ReverseMap();
             CreateMap<User, GetUserDTO>().ReverseMap();
             CreateMap<Article, ProductDTO>().ReverseMap();
+            CreateMap<Order, AddOrderDTO>().ReverseMap();
+            CreateMap<OrderItem, AddOrderItemDTO>().ReverseMap();
         }
     }
 }

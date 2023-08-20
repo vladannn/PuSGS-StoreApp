@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StoreApp.DTOs;
 using StoreApp.Services.Interfaces;
 using System.Data;
 
@@ -35,6 +36,18 @@ namespace StoreApp.Controllers
             var product = _buyerService.GetProduct(id, userId);
 
             return Ok(product);
+        }
+
+        [HttpPost("add-order")]
+        [Authorize(Roles = "Buyer")]
+        public IActionResult AddOrder(AddOrderDTO addOrderDTO)
+        {
+            if (!int.TryParse(User.Claims.First(c => c.Type == "Id").Value, out int userId))
+                throw new Exception("Not valid value for ID. Please logout and login again.");
+            
+            _buyerService.AddOrder(userId, addOrderDTO);
+
+            return Ok();
         }
     }
 }

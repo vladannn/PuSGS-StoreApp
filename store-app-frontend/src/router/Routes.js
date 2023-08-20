@@ -10,6 +10,8 @@ import EditProduct from "../components/Seller/EditProduct.js";
 import Catalog from "../components/Seller/Catalog.js";
 import ProductDetails from "../components/Product/ProductDetails.js";
 import Cart from "../components/Buyer/Cart.js";
+import NewOrders from "../components/Buyer/NewOrders.js";
+import OldOrders from "../components/Buyer/OldOrders.js";
 
 function Rout(){
     return(
@@ -25,6 +27,8 @@ function Rout(){
                 <Route path="/get-products" element={<Catalog/>}></Route>
                 <Route path="/get-products/:id" element={<ProductDetails/>}></Route>
                 <Route path="/cart" element={<Cart/>}></Route>
+                <Route path="/new-orders" element={<NewOrders/>}></Route>
+                <Route path="/old-orders" element={<OldOrders/>}></Route>
                 <Route path="/"></Route>
                 
         </Routes>

@@ -6,5 +6,6 @@ namespace StoreApp.Services.Interfaces
     {
         List<ProductDTO> GetProducts(int id);
         ProductDTO GetProduct(int id, int userId);
+        void AddOrder(int id, AddOrderDTO addOrderDTO);
     }
 }
