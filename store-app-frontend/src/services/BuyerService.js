@@ -148,12 +148,15 @@ const cancelOrder = async(id) =>{
             console.error("Token not found in localStorage.");
             return;
         }
-
-        await axios.put(`${process.env.REACT_APP_API_URL}buyer/cancel-order/${id}`, {headers: {"Authorization": `Bearer ${token}`}});
+        
+        await axios.put(`${process.env.REACT_APP_API_URL}buyer/cancel-order/${id}`, null, {headers: {"Authorization": `Bearer ${token}`}});
+        return true;
     }
     catch(ex)
     {
-        alert(ex.response.data.Exception);
+        console.error(ex); 
+        alert(`An error occurred: ${ex.message}`);
+        return false;
     }
 }
 // eslint-disable-next-line import/no-anonymous-default-export

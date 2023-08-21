@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ProductModel } from "../models/models";
+import { ProductModel, OrderModel } from "../models/models";
 
 const getProducts = async ()=>{
     try{
@@ -102,5 +102,69 @@ const editProduct = async(id, formData)=>{
     }
 }
 
+const getOldOrders = async ()=>{
+    try{
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage.");
+            return;
+        }
+
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}seller/get-old-seller-orders`, {headers: {"Authorization": `Bearer ${token}`}});
+        
+        const ordersList=[];
+        for(let i = 0; i < response.data.length; i++){
+            const product = response.data[i];
+            ordersList[i] = new OrderModel(
+                product.id,
+                product.deliveryAddress,
+                product.comment,
+                product.orderTime, 
+                product.orderStatus,
+                product.deliveryTime,
+                product.orderItems
+            );
+        }
+        return ordersList;
+    }
+    catch(error)
+    {
+        alert(error.response.data.Exception);
+        return null;
+    }
+}
+
+const getNewOrders = async ()=>{
+    try{
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage.");
+            return;
+        }
+
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}seller/get-new-seller-orders`, {headers: {"Authorization": `Bearer ${token}`}});
+        
+        const ordersList=[];
+        for(let i = 0; i < response.data.length; i++){
+            const product = response.data[i];
+            ordersList[i] = new OrderModel(
+                product.id,
+                product.deliveryAddress,
+                product.comment,
+                product.orderTime, 
+                product.orderStatus,
+                product.deliveryTime,
+                product.orderItems
+            );
+        }
+        return ordersList;
+    }
+    catch(ex)
+    {
+        console.error(ex); 
+        alert(`An error occurred: ${ex.message}`);
+        return null;
+    }
+}
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {getProducts, addProduct, deleteProduct, getProduct, editProduct};
+export default {getProducts, addProduct, deleteProduct, getProduct, editProduct, getOldOrders, getNewOrders};

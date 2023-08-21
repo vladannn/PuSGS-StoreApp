@@ -10,5 +10,7 @@ namespace StoreApp.Services.Interfaces
         public void DeleteProduct(int id, int userId);
         public ProductDTO GetProductById(int id, int userId);
         public ProductDTO UpdateProduct(int id, int userId,  ProductDTO productDTO);
+        public List<GetOrderDTO> GetOldOrders(int id);
+        public List<GetOrderDTO> GetNewOrders(int id);
     }
 }

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import buyerService from "../../services/BuyerService";
+import sellerService from "../../services/SellerService";
 import { TableCell, Box, TableContainer, Typography, Table, TableBody, TableHead, TableRow, Paper } from "@mui/material";
 
-const OldOrders = () =>{
+const OldOrdersSeller = () =>{
     const [orders, setOrders] = useState([]);
 
     useEffect(()=>{
-        buyerService.getOldOrders().then(
+        sellerService.getOldOrders().then(
         (res)=>{
             if(res!=null)
             {
@@ -34,7 +34,7 @@ const OldOrders = () =>{
                             <TableCell align="center">Order Time</TableCell>
                             <TableCell align="right">Delivery Time</TableCell>
                             <TableCell align="right">Order Status</TableCell>
-                            <TableCell align="right">Purchased items</TableCell>
+                            <TableCell align="right">Your Items</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -69,4 +69,4 @@ const OldOrders = () =>{
     );
 }
 
-export default OldOrders;
+export default OldOrdersSeller;

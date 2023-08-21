@@ -31,12 +31,45 @@ namespace StoreApp.Repository
             return orders;
         }
 
+        public List<Order> GetNewOrdersSeller(int id)
+        {
+            List<Order> orders =  _context.Orders
+                .Include(o => o.OrderItems)
+                .Where(o => o.OrderStatus == OrderStatus.Delivered &&
+                            o.DeliveryTime > DateTime.Now &&
+                            o.OrderItems.Any(oi => _context.Articles.Any(p => p.Id == oi.ArticleId && p.SellerId == id))).ToList();
+
+            foreach (var order in orders)
+            {
+                order.OrderItems = order.OrderItems.Where(oi => _context.Articles.Any(p => p.Id == oi.ArticleId && p.SellerId == id)).ToList();
+            }
+
+            return orders;
+        }
+
         public List<Order> GetOldOrders(int id)
         {
             List<Order>? orders = _context.Orders.Include(x => x.OrderItems)
             .Where(x => x.BuyerId == id && x.OrderStatus == OrderStatus.Delivered && x.DeliveryTime <= DateTime.Now).ToList();
 
             return orders; 
+        }
+
+        public List<Order> GetOldOrdersSeller(int id)
+        {
+            List<Order> orders = _context.Orders
+                .Include(o => o.OrderItems)
+                .Where(o => o.OrderStatus == OrderStatus.Delivered &&
+                            o.DeliveryTime <= DateTime.Now &&
+                            o.OrderItems.Any(oi => _context.Articles.Any(p => p.Id == oi.ArticleId && p.SellerId == id)))
+                .ToList();
+
+            foreach (var order in orders)
+            {
+                order.OrderItems = order?.OrderItems?.Where(oi => _context.Articles.Any(p => p.Id == oi.ArticleId && p.SellerId == id)).ToList();
+            }
+
+            return orders;
         }
 
         public Order GetOrderById(int id)

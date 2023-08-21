@@ -20,6 +20,8 @@ const sellerLinks = [
   { title: 'add product', path: '/add-product', loggedIn: true},
   { title: 'profile', path: '/profile', loggedIn: true},
   { title: 'my products', path: '/get-my-products', loggedIn: true},
+  { title: 'new orders', path: '/new-orders-seller', loggedIn: true},
+  { title: 'old orders', path: '/old-orders-seller', loggedIn: true}
 ]
 
 const buyerLinks = [

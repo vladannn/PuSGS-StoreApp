@@ -11,5 +11,7 @@ namespace StoreApp.Repository.Interfaces
         Order GetOrderById(int id);
         void Update(Order order);
         List<OrderItem> GetOrderItemsOnOrder(int orderId);
+        List<Order> GetOldOrdersSeller(int id);
+        List<Order> GetNewOrdersSeller(int id);
     }
 }

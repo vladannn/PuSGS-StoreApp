@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using StoreApp.DTOs;
 using StoreApp.Models;
+using StoreApp.Repository;
 using StoreApp.Repository.Interfaces;
 using StoreApp.Services.Interfaces;
 
@@ -11,11 +12,13 @@ namespace StoreApp.Services
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
-        public SellerService(IProductRepository productRepository, IMapper mapper, IUserRepository userRepository)
+        private readonly IOrderRepository _orderRepository;
+        public SellerService(IProductRepository productRepository, IMapper mapper, IUserRepository userRepository, IOrderRepository orderRepository)
         {
             _productRepository = productRepository;
             _mapper = mapper;
             _userRepository = userRepository;
+            _orderRepository = orderRepository;
         }
         public void AddProduct(int id, ProductDTO productDTO)
         {
@@ -67,6 +70,30 @@ namespace StoreApp.Services
             var products = _productRepository.GetAllArticles(id);
 
             return _mapper.Map<List<ProductDTO>>(products);
+        }
+
+        public List<GetOrderDTO> GetNewOrders(int id)
+        {
+            var u = _userRepository.FindUserById(id);
+            if (u == null)
+            {
+                throw new Exception("There is no seller with that ID. Logout and login again!");
+            }
+
+            var orders = _orderRepository.GetNewOrdersSeller(id);
+            return _mapper.Map<List<GetOrderDTO>>(orders);
+        }
+
+        public List<GetOrderDTO> GetOldOrders(int id)
+        {
+            var u = _userRepository.FindUserById(id);
+            if (u == null)
+            {
+                throw new Exception("There is no seller with that ID. Logout and login again!");
+            }
+
+            var orders = _orderRepository.GetOldOrdersSeller(id);
+            return _mapper.Map<List<GetOrderDTO>>(orders);
         }
 
         public ProductDTO GetProductById(int id, int userId)

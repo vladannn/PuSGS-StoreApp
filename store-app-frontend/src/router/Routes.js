@@ -12,6 +12,8 @@ import ProductDetails from "../components/Product/ProductDetails.js";
 import Cart from "../components/Buyer/Cart.js";
 import NewOrders from "../components/Buyer/NewOrders.js";
 import OldOrders from "../components/Buyer/OldOrders.js";
+import OldOrdersSeller from "../components/Seller/OldOrdersSeller.js";
+import NewOrdersSeller from "../components/Seller/NewOrdersSeller.js";
 
 function Rout(){
     return(
@@ -29,6 +31,8 @@ function Rout(){
                 <Route path="/cart" element={<Cart/>}></Route>
                 <Route path="/new-orders" element={<NewOrders/>}></Route>
                 <Route path="/old-orders" element={<OldOrders/>}></Route>
+                <Route path="/old-orders-seller" element={<OldOrdersSeller/>}></Route>
+                <Route path="/new-orders-seller" element={<NewOrdersSeller/>}></Route>
                 <Route path="/"></Route>
                 
         </Routes>

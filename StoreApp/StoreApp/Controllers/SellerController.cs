@@ -70,5 +70,27 @@ namespace StoreApp.Controllers
 
             return Ok(product);
         }
+
+        [HttpGet("get-old-seller-orders")]
+        [Authorize(Roles = "Seller")]
+        public IActionResult GetOldOrders()
+        {
+            if (!int.TryParse(User.Claims.First(c => c.Type == "Id").Value, out int userId))
+                throw new Exception("Not valid value for ID. Please logout and login again.");
+            var products = _sellerService.GetOldOrders(userId);
+
+            return Ok(products);
+        }
+
+        [HttpGet("get-new-seller-orders")]
+        [Authorize(Roles = "Seller")]
+        public IActionResult GetNewOrders()
+        {
+            if (!int.TryParse(User.Claims.First(c => c.Type == "Id").Value, out int userId))
+                throw new Exception("Not valid value for ID. Please logout and login again.");
+            var products = _sellerService.GetNewOrders(userId);
+
+            return Ok(products);
+        }
     }
 }
