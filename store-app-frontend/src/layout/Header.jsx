@@ -59,7 +59,7 @@ function Header() {
                     >
           WEB-STORE
         </Typography>
-        {!authContext.loggedIn && <List sx={{ display: 'flex' }}>
+        {!authContext.token && <List sx={{ display: 'flex' }}>
                     {rightLinks.map(({ title, path }) => (
                         <ListItem
                             component={NavLink}
@@ -73,7 +73,7 @@ function Header() {
         </List>
         }     
         {
-          authContext.loggedIn && authContext.onUserType()==="Administrator" && <List sx={{ display: 'flex' }}>
+          authContext.token && authContext.onUserType()==="Administrator" && <List sx={{ display: 'flex' }}>
           {adminLinks.map(({ title, path }) => (
               <ListItem
                   component={NavLink}
@@ -85,7 +85,7 @@ function Header() {
               </ListItem>
           ))}
 
-          {authContext.loggedIn && (
+          {authContext.token && (
             <ListItem
             onClick={authContext.onLogout}
             sx={{color: 'inherit', typography: 'h6', cursor: 'pointer'}}>
@@ -96,7 +96,7 @@ function Header() {
         }
 
         {
-          authContext.loggedIn && authContext.onUserType()==="Seller" && <List sx={{ display: 'flex' }}>
+          authContext.token && authContext.onUserType()==="Seller" && <List sx={{ display: 'flex' }}>
           {sellerLinks.map(({ title, path }) => (
               <ListItem
                   component={NavLink}
@@ -108,7 +108,7 @@ function Header() {
               </ListItem>
           ))}
 
-          {authContext.loggedIn && (
+          {authContext.token && (
             <ListItem
             onClick={authContext.onLogout}
             sx={{color: 'inherit', typography: 'h6', cursor: 'pointer'}}>
@@ -118,7 +118,7 @@ function Header() {
           </List>
         }
         {
-          authContext.loggedIn && authContext.onUserType()==="Buyer" && <List sx={{ display: 'flex' }}>
+          authContext.token && authContext.onUserType()==="Buyer" && <List sx={{ display: 'flex' }}>
           {buyerLinks.map(({ title, path }) => (
               <ListItem
                   component={NavLink}
@@ -130,7 +130,7 @@ function Header() {
               </ListItem>
           ))}
 
-          {authContext.loggedIn && (
+          {authContext.token && (
             <ListItem
             onClick={authContext.onLogout}
             sx={{color: 'inherit', typography: 'h6', cursor: 'pointer'}}>

@@ -1,5 +1,12 @@
 import axios from "axios";
 import {GetUserModel, OrderModel} from "../models/models";
+//import jwtDecode from 'jwt-decode';
+
+// const isTokenExpired=(token) =>{
+//     const decodeToken = jwtDecode(token);
+//     const currentTime = Date.now()/1000;
+//     return decodeToken.exp < currentTime;
+// }
 
 const getUsersList= async()=>{
     try{
@@ -89,12 +96,14 @@ const declinedRequest= async()=>{
 }
 
 const getOrders = async ()=>{
+    
     try{
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("Token not found in localStorage.");
             return;
         }
+
 
         const response = await axios.get(`${process.env.REACT_APP_API_URL}admin/get-orders`, {headers: {"Authorization": `Bearer ${token}`}});
         

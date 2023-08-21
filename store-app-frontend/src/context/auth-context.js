@@ -45,6 +45,21 @@ const AuthProvider = ({children}) => {
       }
   };
 
+  const isTokenExpired = (token) => {
+    if (!token) {
+      return true;
+    }
+  
+    try {
+      const tokenDecoded = jwtDecode(token);
+      const currentTime = Date.now() / 1000; // Convert to seconds
+  
+      return tokenDecoded.exp < currentTime;
+    } catch (error) {
+      return true;
+    }
+  };
+
   const googleLogin = async (data) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}users/google-login`, {token: data.credential});
@@ -80,11 +95,11 @@ const AuthProvider = ({children}) => {
     localStorage.clear();
     setLoggedIn(false);
     setToken(null);
-    navigate('');
+    navigate('/');
   }
 
   return (
-    <AuthContext.Provider value={{token: token, onLogin: login, onGoogleLogin: googleLogin, onLogout: logout, loggedIn: loggedIn, onUserType: typeOfUser }}>
+    <AuthContext.Provider value={{token: token, onLogin: login, onGoogleLogin: googleLogin, onLogout: logout, loggedIn: loggedIn, onUserType: typeOfUser, onIsTokenExpired: isTokenExpired }}>
       {children}
     </AuthContext.Provider>
   );
