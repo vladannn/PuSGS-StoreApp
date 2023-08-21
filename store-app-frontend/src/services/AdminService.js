@@ -1,5 +1,5 @@
 import axios from "axios";
-import {GetUserModel} from "../models/models";
+import {GetUserModel, OrderModel} from "../models/models";
 
 const getUsersList= async()=>{
     try{
@@ -87,5 +87,38 @@ const declinedRequest= async()=>{
         return null;
     }
 }
+
+const getOrders = async ()=>{
+    try{
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage.");
+            return;
+        }
+
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}admin/get-orders`, {headers: {"Authorization": `Bearer ${token}`}});
+        
+        const ordersList=[];
+        for(let i = 0; i < response.data.length; i++){
+            const product = response.data[i];
+            ordersList[i] = new OrderModel(
+                product.id,
+                product.deliveryAddress,
+                product.comment,
+                product.orderTime, 
+                product.orderStatus,
+                product.deliveryTime,
+                product.orderItems
+            );
+        }
+        return ordersList;
+    }
+    catch(ex)
+    {
+        console.error(ex); 
+        alert(`An error occurred: ${ex.message}`);
+        return null;
+    }
+}
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {getUsersList, forVerification, verifyUser, declinedRequest};
+export default {getUsersList, forVerification, verifyUser, declinedRequest, getOrders};

@@ -2,6 +2,7 @@
 using StoreApp.DTOs;
 using StoreApp.Enums;
 using StoreApp.Models;
+using StoreApp.Repository;
 using StoreApp.Repository.Interfaces;
 using StoreApp.Services.Interfaces;
 
@@ -12,11 +13,13 @@ namespace StoreApp.Services
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
-        public AdminService(IUserRepository userRepository, IMapper mapper, IEmailService emailService) 
+        private readonly IOrderRepository _orderRepository;
+        public AdminService(IUserRepository userRepository, IMapper mapper, IEmailService emailService, IOrderRepository orderRepository) 
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _emailService = emailService;
+            _orderRepository = orderRepository;
         }
 
         public List<GetUserDTO> DeclinedUsers()
@@ -29,6 +32,18 @@ namespace StoreApp.Services
         {
             List<User> users = _userRepository.UsersForVerification();
             return _mapper.Map<List<GetUserDTO>>(users);
+        }
+
+        public List<GetOrderDTO> GetOrders(int id)
+        {
+            var u = _userRepository.FindUserById(id);
+            if (u == null)
+            {
+                throw new Exception("There is no seller with that ID. Logout and login again!");
+            }
+
+            var orders = _orderRepository.GetOrdersAdmin(id);
+            return _mapper.Map<List<GetOrderDTO>>(orders);
         }
 
         public List<GetUserDTO> GetUsers()

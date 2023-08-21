@@ -13,5 +13,6 @@ namespace StoreApp.Repository.Interfaces
         List<OrderItem> GetOrderItemsOnOrder(int orderId);
         List<Order> GetOldOrdersSeller(int id);
         List<Order> GetNewOrdersSeller(int id);
+        List<Order> GetOrdersAdmin(int id);
     }
 }

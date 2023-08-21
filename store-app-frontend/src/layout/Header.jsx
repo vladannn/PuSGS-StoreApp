@@ -13,7 +13,8 @@ const rightLinks = [
 const adminLinks = [
   { title: 'all users', path: '/all-users', loggedIn: true},
   { title: 'verification', path: '/for-verification', loggedIn: true},
-  { title: 'profile', path: '/profile', loggedIn: true}
+  { title: 'profile', path: '/profile', loggedIn: true},
+  { title: 'orders', path: '/get-orders', loggedIn: true}
 ]
 
 const sellerLinks = [

@@ -7,6 +7,7 @@ namespace StoreApp.Services.Interfaces
         List<GetUserDTO> GetUsers();
         List<GetUserDTO> ForVerification();
         void VerifyUser(VerifyUserDTO verifyUserDTO);
-        List<GetUserDTO> DeclinedUsers();  
+        List<GetUserDTO> DeclinedUsers(); 
+        List<GetOrderDTO> GetOrders(int id);
     }
 }

@@ -56,6 +56,15 @@ namespace StoreApp.Controllers
             return Ok(users);
         }
 
-        
+        [HttpGet("get-orders")]
+        [Authorize(Roles = "Administrator")]
+        public IActionResult GetOrders()
+        {
+            if (!int.TryParse(User.Claims.First(c => c.Type == "Id").Value, out int userId))
+                throw new Exception("Not valid value for ID. Please logout and login again.");
+            var products = _adminService.GetOrders(userId);
+
+            return Ok(products);
+        }
     }
 }

@@ -82,6 +82,13 @@ namespace StoreApp.Repository
         {
             return _context.OrderItems.Where(x => x.OrderId == orderId).ToList();
         }
+
+        public List<Order> GetOrdersAdmin(int id)
+        {
+            List<Order> orders = _context.Orders.Include(o => o.OrderItems).ToList();
+            return orders;
+        }
+
         public void Update(Order order)
         {
             _context.Orders?.Update(order);
