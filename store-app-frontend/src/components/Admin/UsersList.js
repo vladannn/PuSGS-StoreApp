@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import adminService from "../../services/AdminService";
+import { TableCell, Box, TableContainer, Typography, Table, TableBody, TableHead, TableRow, Paper} from "@mui/material";
 
 const UsersList=()=>{
     const [users, setUsers]= useState([]);
@@ -29,40 +30,50 @@ const UsersList=()=>{
 
     return (
         <>
-        {users.length>0 ? (<div>
-            <table border={1} bgcolor="white" align="center" >
-                <thead> 
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Full Name</th>
-                        <th>Birthday</th>
-                        <th>Address</th>
-                        <th>Image</th>
-                        <th>Type of user</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map((user) => (
-                        <tr key={user.username}>
-                            <td style={{ textAlign: 'center' }}>{user.username}</td>
-                            <td style={{ textAlign: 'center' }}>{user.email}</td>
-                            <td style={{ textAlign: 'center' }}>{user.fullName}</td>
-                            <td style={{ textAlign: 'center' }}>{convertDate(user.birthday)}</td>
-                            <td style={{ textAlign: 'center' }}>{user.address}</td>
-                            {/* <td><img src={user.image ? convertImage(user.userImage) : null} alt="User" /></td> */}
-                            {user.userImage && user.userImage.length > 0 ? (
-                                            <td style={{ textAlign: 'center' }}><img src={convertImage(user.userImage)} alt="User" /></td>
+        {users.length>0 ?(
+        <>
+        <Box display="flex" justifyContent="center" mt={2}>
+                <h2>All users</h2>
+        </Box>
+        <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center">Username</TableCell>
+                            <TableCell align="center">Email</TableCell>
+                            <TableCell align="center">Full Name</TableCell>
+                            <TableCell align="right">Birthday</TableCell>
+                            <TableCell align="right">Address</TableCell>
+                            <TableCell align="center">Image</TableCell>
+                            <TableCell align="right">Type of User</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {users.map((user) =>(
+                            <TableRow
+                                key={user.username}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell align="right">{user.username}</TableCell>
+                                <TableCell align="right">{user.email}</TableCell>
+                                <TableCell align="center">{user.fullName}</TableCell>
+                                <TableCell align="right">{convertDate(user.birthday)}</TableCell>
+                                <TableCell align="right">{user.address}</TableCell>
+                                {user.userImage && user.userImage.length > 0 ? (
+                                            <TableCell align="right"><img width={100} height={100} src={convertImage(user.userImage)} alt="User" /></TableCell>
                                         ) : (
-                                            <td style={{ textAlign: 'center' }}>{str}</td>
+                                            <TableCell align="center">{str}</TableCell>
                                         )}
-                            {user.typeOfUser === 1 ? <td style={{ textAlign: 'center' }}>Seller</td> : <td style={{ textAlign: 'center' }}>Buyer</td>}
-                        </tr>
-                        ))} 
-                    </tbody>
-            </table>
-        </div>)
-        : <h1>There is no users</h1>}
+                                {user.typeOfUser === 1 ? <TableCell align="center">Seller</TableCell> : <TableCell align="center">Buyer</TableCell>}
+                            </TableRow>
+                        ))}
+                    </TableBody>
+            </Table>
+        </TableContainer>
+        </>)
+        :
+        (<Box display="flex" justifyContent="center" mt={2}><Typography variant="h3">There is no users</Typography></Box>  )               
+}
         </>
     )
 }

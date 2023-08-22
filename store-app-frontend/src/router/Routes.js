@@ -19,9 +19,9 @@ import { AuthContext } from "../context/auth-context.js";
 import { useContext } from "react";
 import Home from "../components/Home/Home.js";
 
-
 function Rout(){
     const auth = useContext(AuthContext);
+
     return(
         <Routes>
                 <Route path="/login" element={auth.token? <Navigate to="/profile"/> :<Login/>}></Route>

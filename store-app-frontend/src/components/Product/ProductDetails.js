@@ -41,16 +41,16 @@ const ProductDetails = () =>{
                     <Typography variant="h3" sx={{ marginTop: 3 }} align="center">
                         {product.name}
                     </Typography>
-                    
+                    <br></br>
                     
                     <img
                         title="Image"
-                        style={{ width: '90%', maxWidth: 300, height: 'auto' }}
+                        style={{ width: '90%', maxWidth: 300, height: 'auto', marginLeft: 50}}
                         alt="Product"
                         src={product.image && convertImage(product.image)}
                     />
                     
-                    <Typography variant="h6" component="div" sx={{ backgroundColor: '#FF0000', color: 'white', padding: '4px 8px', borderRadius: 4 }}>
+                    <Typography variant="h6" component="div" sx={{ backgroundColor: '#FF0000', color: 'white', padding: '4px 8px', borderRadius: 4, marginTop: 1 }}>
                         Price: {product.price} USD
                     </Typography>
                     <Typography variant="h6" sx={{ marginTop: 1 }}>

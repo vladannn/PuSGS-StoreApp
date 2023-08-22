@@ -2,9 +2,11 @@ import React from "react";
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import {useCart} from "../../context/cart-context";
+import { red } from '@mui/material/colors';
 
 const ProductCard = ({product}) =>{
     const {addToCart} = useCart();
+    const red500Hex = red[500];
 
     const convertImage = (img) => {
         return `data:image/jpg;base64,${img}`;
@@ -15,10 +17,10 @@ const ProductCard = ({product}) =>{
     };
 
     return (
-        <Card>
+        <Card sx={{marginTop: 2}}>
             <CardHeader
                 avatar={
-                    <Avatar sx={{ bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ bgcolor: red500Hex }}>
                         {product.name.charAt(0).toUpperCase()}
                     </Avatar>
                 }
@@ -28,13 +30,13 @@ const ProductCard = ({product}) =>{
                 }}
             />
             <CardMedia
-                sx={{ height: 140, backgroundSize: 'contain', bgcolor: 'primary.light' }}
+                sx={{ height: 140, backgroundSize: 'contain', bgcolor: red500Hex }}
                 image={convertImage(product.image)}
                 title={product.name}
             />
             <CardContent>
-                <Typography gutterBottom color='secondary' variant="h5">
-                    Din{product.price}
+                <Typography gutterBottom color={red500Hex} variant="h5">
+                    ${product.price}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     {product.description}
