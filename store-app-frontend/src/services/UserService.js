@@ -4,7 +4,8 @@ import { UserModel } from "../models/models";
 const register=async(formData)=>{
     try{
         const response = await axios.post(`${process.env.REACT_APP_API_URL}users/register`, formData, {headers: {"Content-Type": "multipart/form-data"}});
-        console.log(response);
+        console.log(response.data);
+        return response.data
     }
     catch(error)
     {

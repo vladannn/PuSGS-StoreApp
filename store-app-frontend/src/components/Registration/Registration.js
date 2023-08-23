@@ -142,7 +142,15 @@ function Registration() {
         formData.append("typeOfUser", data.typeOfUser);
         data.imageFile && formData.append("imageFile", data.imageFile);
 
-        userService.register(formData).then(res => {alert("Successfully registered!"); navigate("/"); }).catch(e => { console.log(e); return; });
+        userService.register(formData).then(
+          (res) => {
+            if(res)
+           {alert("Successfully registered!"); 
+           navigate("/"); }
+           else
+           {
+            alert("Check your information! Username or email already exists!");
+           }}).catch(e => { console.log(e); return; });
       }
       else{
         return;

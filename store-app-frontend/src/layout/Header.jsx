@@ -33,6 +33,7 @@ const buyerLinks = [
   { title: 'old orders', path: '/old-orders', loggedIn: true}
 ]
 
+
 const navStyles = {
     color: 'inherit',
     textDecoration: 'none',
@@ -59,7 +60,7 @@ function Header() {
                     >
           WEB-STORE
         </Typography>
-        {!authContext.token && <List sx={{ display: 'flex' }}>
+        {!authContext.token &&  <List sx={{ display: 'flex' }}>
                     {rightLinks.map(({ title, path }) => (
                         <ListItem
                             component={NavLink}
@@ -85,7 +86,7 @@ function Header() {
               </ListItem>
           ))}
 
-          {authContext.token && (
+          {authContext.token &&  (
             <ListItem
             onClick={authContext.onLogout}
             sx={{color: 'inherit', typography: 'h6', cursor: 'pointer'}}>

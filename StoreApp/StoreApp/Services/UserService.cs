@@ -79,7 +79,7 @@ namespace StoreApp.Services
                         issuer: "https://localhost:5001",
                         claims: claims,
                         audience: "all",
-                        expires: DateTime.Now.AddMinutes(1),
+                        expires: DateTime.Now.AddSeconds(30),
                         signingCredentials: signInCredentials
                     );
 
