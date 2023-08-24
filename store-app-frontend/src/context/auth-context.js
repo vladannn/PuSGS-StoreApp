@@ -33,7 +33,7 @@ const AuthProvider = ({children}) => {
         setToken(response.data);
         setLoggedIn(true);
         localStorage.setItem('token', response.data);
-        navigate('/profile');
+        navigate('/home');
         }
         else{
           alert(response.data);
@@ -70,7 +70,7 @@ const AuthProvider = ({children}) => {
       setLoggedIn(true);
       localStorage.setItem('token', response.data.result);
       console.log(response.data.result);
-      navigate('/profile');
+      navigate('/home');
 
     } catch (error) {
       alert(error.response.data.Exception);
